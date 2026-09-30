@@ -1,0 +1,26 @@
+{
+  "name": "noviqtek-school-dev",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Noviqtek School Management \u2014 Cloudflare Workers + D1. Developed by Noviqtek.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.5"
+  },
+  "scripts": {
+    "build": "node scripts/copy-vendor.mjs",
+    "deploy": "node scripts/copy-vendor.mjs && wrangler d1 migrations apply DB --remote && wrangler deploy",
+    "deploy:cli": "node scripts/deploy.mjs",
+    "deploy:staging": "node scripts/deploy.mjs --env staging",
+    "new-school": "node scripts/deploy.mjs --new-school",
+    "backup": "node scripts/deploy.mjs --backup",
+    "dev": "node scripts/copy-vendor.mjs && wrangler dev",
+    "test": "node --test test/*.test.mjs"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0",
+    "qrcode-generator": "^1.4.4",
+    "jsqr": "^1.4.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+  }
+}

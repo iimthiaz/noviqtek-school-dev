@@ -1,0 +1,61 @@
+// Permission catalog and role presets. Deny by default: a user can do only what
+// one of their roles grants. "scope.all_classes" widens class-scoped modules
+// (students, attendance, dismissal) beyond the user's own assigned classes.
+export const PERMISSIONS = {
+  'dashboard.view': 'View dashboard metrics within scope',
+  'tenant.configure': 'Configure school settings, branding and campuses',
+  'academic.view': 'View academic years, terms, year groups, classes, subjects',
+  'academic.manage': 'Create/edit/archive academic structure',
+  'student.view': 'View student records (within class scope)',
+  'student.create': 'Create students',
+  'student.edit': 'Edit students',
+  'student.archive': 'Archive / restore students',
+  'student.export': 'Export student lists',
+  'family.view': 'View guardians, families and links',
+  'family.manage': 'Create/edit guardians, families and links',
+  'family.credentials': 'Issue, print and revoke family QR check-in cards',
+  'staff.view': 'View staff directory',
+  'staff.manage': 'Create/edit staff and teaching assignments',
+  'user.manage': 'Invite users and assign roles',
+  'role.manage': 'Create custom roles and edit permissions',
+  'attendance.view': 'View attendance',
+  'attendance.record': 'Record attendance for scoped classes',
+  'attendance.correct': 'Correct previously recorded attendance with a reason',
+  'dismissal.view': 'View dismissal board within scope',
+  'dismissal.call': 'Call students for pickup (reception / gate / QR)',
+  'dismissal.confirm': 'Confirm student dismissal (teacher)',
+  'dismissal.reopen': 'Reopen a dismissed record with a reason',
+  'import.run': 'Use the Data Import Center',
+  'audit.view': 'View the audit log',
+  'scope.all_classes': 'Access all classes, not only assigned ones',
+};
+export const ALL = Object.keys(PERMISSIONS);
+const READ = ['dashboard.view', 'academic.view', 'student.view', 'family.view', 'staff.view', 'attendance.view', 'dismissal.view', 'scope.all_classes'];
+
+// [code, English, Arabic, permissions, requiresMfa]
+export const ROLE_PRESETS = [
+  ['school_super_admin', 'School super administrator', 'مدير النظام للمدرسة', ALL, 1],
+  ['principal', 'Principal', 'مدير المدرسة', [...READ, 'student.export', 'attendance.correct', 'dismissal.reopen', 'audit.view'], 1],
+  ['vice_principal', 'Vice principal', 'نائب المدير', [...READ, 'student.export', 'attendance.correct', 'dismissal.reopen'], 1],
+  ['academic_coordinator', 'Academic coordinator', 'المنسق الأكاديمي', [...READ, 'academic.manage', 'staff.manage'], 0],
+  ['head_of_department', 'Head of department', 'رئيس القسم', ['dashboard.view', 'academic.view', 'student.view', 'staff.view', 'attendance.view'], 0],
+  ['class_teacher', 'Class teacher', 'معلم الفصل', ['dashboard.view', 'academic.view', 'student.view', 'family.view', 'attendance.view', 'attendance.record', 'dismissal.view', 'dismissal.confirm'], 0],
+  ['subject_teacher', 'Subject teacher', 'معلم المادة', ['dashboard.view', 'academic.view', 'student.view', 'attendance.view', 'attendance.record', 'dismissal.view', 'dismissal.confirm'], 0],
+  ['teaching_assistant', 'Teaching assistant', 'مساعد معلم', ['dashboard.view', 'student.view', 'attendance.view', 'dismissal.view', 'dismissal.confirm'], 0],
+  ['admissions_officer', 'Admissions officer', 'مسؤول القبول', ['dashboard.view', 'academic.view', 'student.view', 'student.create', 'student.edit', 'family.view', 'family.manage', 'scope.all_classes', 'import.run'], 1],
+  ['reception_officer', 'Reception officer', 'موظف الاستقبال', ['dashboard.view', 'academic.view', 'student.view', 'family.view', 'dismissal.view', 'dismissal.call', 'scope.all_classes'], 0],
+  ['gate_officer', 'Dismissal / gate officer', 'مسؤول البوابة', ['dismissal.view', 'dismissal.call', 'scope.all_classes'], 0],
+  ['accountant', 'Accountant', 'المحاسب', ['dashboard.view'], 1],
+  ['hr_officer', 'HR officer', 'موظف الموارد البشرية', ['dashboard.view', 'staff.view', 'staff.manage'], 1],
+  ['it_admin', 'IT administrator', 'مسؤول تقنية المعلومات', ['dashboard.view', 'user.manage', 'audit.view'], 1],
+  ['librarian', 'Librarian', 'أمين المكتبة', ['dashboard.view'], 0],
+  ['transport_manager', 'Transport manager', 'مدير النقل', ['dashboard.view'], 0],
+  ['driver_attendant', 'Driver / bus attendant', 'السائق / المرافق', [], 0],
+  ['nurse', 'Nurse', 'الممرض/ة', ['dashboard.view'], 1],
+  ['counsellor', 'Counsellor', 'المرشد', ['dashboard.view'], 1],
+  ['safeguarding_lead', 'Designated safeguarding lead', 'مسؤول الحماية', ['dashboard.view'], 1],
+  ['facilities_officer', 'Facilities officer', 'مسؤول المرافق', ['dashboard.view'], 0],
+  ['parent', 'Parent / guardian', 'ولي الأمر', [], 0],
+  ['student', 'Student', 'الطالب', [], 0],
+  ['auditor', 'Read-only auditor', 'مدقق (قراءة فقط)', [...READ, 'audit.view'], 1],
+];

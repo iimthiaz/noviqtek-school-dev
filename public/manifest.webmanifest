@@ -1,0 +1,2 @@
+{ "name": "Noviqtek School Management", "short_name": "Noviqtek", "start_url": "/", "display": "standalone", "background_color": "#f4f6fa", "theme_color": "#1d4e89",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" }] }

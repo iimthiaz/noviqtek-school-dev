@@ -1,0 +1,27 @@
+// Noviqtek School Management — Cloudflare Worker configuration.
+// Used by the "Deploy to Cloudflare" button (which creates the D1 database and
+// replaces database_id automatically) and by `npx wrangler dev` locally.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "noviqtek-school",
+  "main": "src/worker.js",
+  "compatibility_date": "2025-09-01",
+  "workers_dev": true,
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "noviqtek-school",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": { "APP_ENV": "production" },
+  "triggers": { "crons": ["17 22 * * *"] },
+  "observability": { "enabled": true }
+}
